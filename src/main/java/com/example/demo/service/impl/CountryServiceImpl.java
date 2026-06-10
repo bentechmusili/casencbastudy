@@ -2,10 +2,12 @@ package com.example.demo.service.impl;
 import com.example.demo.exception.ExternalServiceException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.CountryInfo;
+import com.example.demo.models.dto.FullCountryInfoResponse;
 import com.example.demo.repos.CountryRepository;
 import com.example.demo.service.CountryService;
 import com.example.demo.soap.client.CountryInfoSoapClient;
 import com.example.demo.soap.client.IsoSoapClient;
+import com.example.demo.util.FullCountryInfoMapper;
 import com.example.demo.util.TextUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -56,10 +58,8 @@ public class CountryServiceImpl implements CountryService {
             throw new ExternalServiceException("Empty response from country info service");
         }
 
-        String capital = countryInfoSoapClient.extract(fullInfoXml, "sCapitalCity");
-        String continent = countryInfoSoapClient.extract(fullInfoXml, "sContinentCode");
-        String phoneCode = countryInfoSoapClient.extract(fullInfoXml, "sPhoneCode");
-        String soapName = countryInfoSoapClient.extract(fullInfoXml, "sName");
+        FullCountryInfoResponse response =
+                FullCountryInfoMapper.map(fullInfoXml);
 
         CountryInfo country = CountryInfo.builder()
                 .countryName(
