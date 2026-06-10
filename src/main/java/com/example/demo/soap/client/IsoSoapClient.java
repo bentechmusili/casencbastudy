@@ -23,25 +23,33 @@ public class IsoSoapClient {
     public String getIsoCode(String countryName) {
         countryName = TextUtil.normalizeCountry(countryName);
 
-        String soapRequest =
-                "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-                        "<soap:Body>" +
-                        "<CountryISOCode  xmlns=\"http://www.oorsprong.org/websamples.countryinfo\">" +
-                        "<sCountryName>" + countryName + "</sCountryName>" +
-                        "</CountryISOCode>" +
-                        "</soap:Body>" +
-                        "</soap:Envelope>";
+        String soapRequest = """
+        <?xml version="1.0" encoding="utf-8"?>
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                          xmlns:web="http://www.oorsprong.org/websamples.countryinfo">
+           <soapenv:Header/>
+           <soapenv:Body>
+              <web:CountryISOCode>
+                 <web:sCountryName>%s</web:sCountryName>
+              </web:CountryISOCode>
+           </soapenv:Body>
+        </soapenv:Envelope>
+        """.formatted(countryName);
         log.info("SOAP Request: {}", soapRequest);
+
         HttpHeaders headers = new HttpHeaders();
 
-        headers.setContentType(MediaType.TEXT_XML);
+        headers.set("Content-Type", "text/xml; charset=utf-8");
 
         HttpEntity<String> request = new HttpEntity<>(soapRequest, headers);
 
         ResponseEntity<String> response =
                 restTemplate.postForEntity(URL, request, String.class);
 
-        return extract(response.getBody(), "CountryISOCodeResult");
+        String body = response.getBody();
+        log.info("Full SOAP Response:\n{}", body);
+
+        return extract(response.getBody(), "m:CountryISOCodeResult");
     }
 
     private String extract(String xml, String tag) {
