@@ -7,6 +7,7 @@ import com.example.demo.repos.CountryRepository;
 import com.example.demo.service.CountryService;
 import com.example.demo.soap.client.CountryInfoSoapClient;
 import com.example.demo.soap.client.IsoSoapClient;
+import com.example.demo.util.DTOtoEntityMapper;
 import com.example.demo.util.FullCountryParser;
 import com.example.demo.util.TextUtil;
 import jakarta.transaction.Transactional;
@@ -61,17 +62,9 @@ public class CountryServiceImpl implements CountryService {
         FullCountryInfoResponse response =
                 FullCountryParser.map(fullInfoXml);
 
-        CountryInfo country = CountryInfo.builder()
-                .countryName(
-                        normalizedName != null ? normalizedName : soapName
-                )
-                .countryIsoCode(isoCode)
-                .capital(capital)
-                .continent(continent)
-                .phoneCode(phoneCode)
-                .build();
+        CountryInfo entity = DTOtoEntityMapper.toEntity(response);
 
-        CountryInfo saved = repository.save(country);
+        CountryInfo saved = repository.save(entity);
 
         log.info("Country created successfully | id={}", saved.getId());
 
