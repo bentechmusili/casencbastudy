@@ -1,10 +1,8 @@
 package com.example.demo.apis;
 
-import com.test.ncba.models.CountryInfo;
-import com.test.ncba.models.dto.CountryRequest;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import com.test.ncba.service.CountryService;
 
 import java.util.List;
 

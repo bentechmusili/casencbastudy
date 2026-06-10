@@ -1,9 +1,16 @@
 package com.example.demo.models;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import jakarta.persistence.*;
+@Entity
+public class Language {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-@Repository
-public interface CountryRepository extends JpaRepository<CountryInfo, Long> {
+    private String languageName;
+    private String isoCode;
+
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private CountryInfo countryInfo;
 }
-
