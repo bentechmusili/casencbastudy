@@ -1,13 +1,14 @@
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: update
-      dialect: org.hibernate.dialect.MySQL57Dialect
-  show-sql: true
   datasource:
-    url: jdbc:mysql://localhost:3306/ncba_case
+    url: jdbc:mysql://localhost:3306/ncba_casestudy
     username: root
-    password: root
+    password: Bhartem55
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect

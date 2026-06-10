@@ -3,6 +3,7 @@ import com.example.demo.exception.ExternalServiceException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.CountryInfo;
 import com.example.demo.repos.CountryRepository;
+import com.example.demo.service.CountryService;
 import com.example.demo.soap.client.CountryInfoSoapClient;
 import com.example.demo.soap.client.IsoSoapClient;
 import com.example.demo.util.TextUtil;
@@ -28,7 +29,7 @@ public class CountryServiceImpl implements CountryService {
 
         log.info("Starting country creation | input={}", countryName);
 
-        String normalizedName = TextUtil.toSentenceCase(countryName);
+        String normalizedName = TextUtil.normalizeCountry(countryName);
 
         String isoCode;
         try {
@@ -77,7 +78,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public List<CountryInfo> getAllCountries() {
+    public List<CountryInfo> getAllCountryInfo() {
         log.info("Fetching all countries");
         return repository.findAll();
     }
@@ -104,7 +105,7 @@ public class CountryServiceImpl implements CountryService {
                         "Country not found with id: " + id
                 ));
 
-        existing.setCountryName(TextUtil.toSentenceCase(countryName));
+        existing.setCountryName(TextUtil.normalizeCountry(countryName));
 
         CountryInfo updated = repository.save(existing);
 

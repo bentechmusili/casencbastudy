@@ -1,5 +1,6 @@
 package com.example.demo.soap.client;
 
+import com.example.demo.util.TextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,13 +21,14 @@ public class IsoSoapClient {
             "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso";
 
     public String getIsoCode(String countryName) {
+        countryName = TextUtil.normalizeCountry(countryName);
 
         String soapRequest =
                 "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
                         "<soap:Body>" +
-                        "<CountryNameToCountryISOCode xmlns=\"http://www.oorsprong.org/websamples.countryinfo\">" +
+                        "<CountryISOCode  xmlns=\"http://www.oorsprong.org/websamples.countryinfo\">" +
                         "<sCountryName>" + countryName + "</sCountryName>" +
-                        "</CountryNameToCountryISOCode>" +
+                        "</CountryISOCode>" +
                         "</soap:Body>" +
                         "</soap:Envelope>";
         log.info("SOAP Request: {}", soapRequest);
@@ -39,7 +41,7 @@ public class IsoSoapClient {
         ResponseEntity<String> response =
                 restTemplate.postForEntity(URL, request, String.class);
 
-        return extract(response.getBody(), "CountryNameToCountryISOCodeResult");
+        return extract(response.getBody(), "CountryISOCodeResult");
     }
 
     private String extract(String xml, String tag) {

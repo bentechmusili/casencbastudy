@@ -1,6 +1,9 @@
 package com.example.demo.apis;
 
 
+import com.example.demo.models.CountryInfo;
+import com.example.demo.models.dto.CountryRequest;
+import com.example.demo.service.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +16,7 @@ public class CountryController {
 
     private final CountryService countryService;
 
+
     @PostMapping
     public CountryInfo create(@RequestBody CountryRequest request) {
         return countryService.createCountry(request.getName());
@@ -20,7 +24,7 @@ public class CountryController {
 
     @GetMapping
     public List<CountryInfo> getAll() {
-        return countryService.getAllCountries();
+        return countryService.getAllCountryInfo();
     }
 
     @GetMapping("/{id}")
