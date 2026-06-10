@@ -17,12 +17,12 @@ public class CountryController {
     private final CountryService countryService;
 
 
-    @PostMapping
+    @PostMapping("/create")
     public CountryInfo create(@RequestBody CountryRequest request) {
         return countryService.createCountry(request.getName());
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<CountryInfo> getAll() {
         return countryService.getAllCountryInfo();
     }
