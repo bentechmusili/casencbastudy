@@ -7,7 +7,7 @@ import com.example.demo.repos.CountryRepository;
 import com.example.demo.service.CountryService;
 import com.example.demo.soap.client.CountryInfoSoapClient;
 import com.example.demo.soap.client.IsoSoapClient;
-import com.example.demo.util.FullCountryInfoMapper;
+import com.example.demo.util.FullCountryParser;
 import com.example.demo.util.TextUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +59,7 @@ public class CountryServiceImpl implements CountryService {
         }
 
         FullCountryInfoResponse response =
-                FullCountryInfoMapper.map(fullInfoXml);
+                FullCountryParser.map(fullInfoXml);
 
         CountryInfo country = CountryInfo.builder()
                 .countryName(

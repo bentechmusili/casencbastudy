@@ -8,7 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FullCountryInfoMapper {
+public class FullCountryParser {
 
     public static FullCountryInfoResponse map(String xml) {
         try {
@@ -57,4 +57,5 @@ public class FullCountryInfoMapper {
         if (nodes.getLength() == 0) return null;
         return nodes.item(0).getTextContent();
     }
+
 }

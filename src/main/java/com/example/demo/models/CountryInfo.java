@@ -24,6 +24,9 @@ public class CountryInfo {
     private String capital;
     private String phoneCode;
     private String continent;
+    private String currencyIsoCode;
+    private String countryFlag;
+
 
     @OneToMany(mappedBy = "countryInfo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Language> languages;

@@ -1,7 +1,10 @@
 package com.example.demo.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+
 @Entity
+@Builder
 public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
