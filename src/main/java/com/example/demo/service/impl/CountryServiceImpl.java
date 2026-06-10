@@ -22,6 +22,7 @@ public class CountryServiceImpl implements CountryService {
     private final CountryRepository repository;
     private final IsoSoapClient isoSoapClient;
     private final CountryInfoSoapClient countryInfoSoapClient;
+    private final SoapImpl soap;
 
     @Override
     @Transactional
@@ -45,7 +46,7 @@ public class CountryServiceImpl implements CountryService {
 
         String fullInfoXml;
         try {
-            fullInfoXml = countryInfoSoapClient.getFullCountryInfo(isoCode);
+            fullInfoXml = soap.getCountryInfo(isoCode);
         } catch (Exception ex) {
             log.error("FullCountryInfo SOAP failure for ISO={}", isoCode, ex);
             throw new ExternalServiceException("Failed to fetch country details");
