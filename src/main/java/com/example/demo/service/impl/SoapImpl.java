@@ -13,13 +13,7 @@ public class SoapImpl {
     private final IsoSoapClient isoSoapClient;
     private final CountryInfoSoapClient countryInfoSoapClient;
 
-    public String getCountryInfo(String countryName) {
-
-        String normalized =
-                countryName.substring(0,1).toUpperCase()
-                        + countryName.substring(1).toLowerCase();
-
-        String isoCode = isoSoapClient.getIsoCode(normalized);
+    public String getCountryInfo(String isoCode) {
 
         return countryInfoSoapClient.getFullCountryInfo(isoCode);
     }

@@ -38,6 +38,7 @@ public class CountryInfoSoapClient {
 
         ResponseEntity<String> response =
                 restTemplate.postForEntity(URL, request, String.class);
+        log.info("Full CountryInfo Body: {}", response);
 
         return response.getBody();
     }
