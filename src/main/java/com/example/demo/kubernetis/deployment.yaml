@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: country-service
+  labels:
+    app: country-service
 spec:
   replicas: 3
   selector:
@@ -14,17 +16,30 @@ spec:
     spec:
       containers:
         - name: country-service
-          image: your-dockerhub/country-service:1.0
+          image: bentechmusili/country-service:1.0
+          imagePullPolicy: Always
+
           ports:
-            - containerPort: 8080
-          env:
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://db:5432/countries
+            - containerPort: 80
+
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8080
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10
+
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: 8080
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 20

@@ -1,19 +1,60 @@
-1. Build application
-   mvn clean package
+# Kubernetes Deployment Guide
 
-2. Build Docker image
-   docker build -t country-service:1.0 .
+## Prerequisites
 
-3. Push image
-   docker push your-repo/country-service:1.0
+* Docker installed
+* Kubernetes cluster running (Minikube, Kind, AKS, EKS, GKE)
+* kubectl configured
+* Maven installed
 
-4. Deploy to Kubernetes
-   kubectl apply -f deployment.yaml
-   kubectl apply -f service.yaml
-   kubectl apply -f hpa.yaml
+## Step 1: Build the Application
 
-5. Check pods
-   kubectl get pods
+```bash
+mvn clean package
+```
 
-6. Check logs
-   kubectl logs -f <pod-name>
+This generates the executable JAR in the target directory.
+
+## Step 2: Build Docker Image
+
+```bash
+docker build -t bentechmusili/country-service:1.0 .
+```
+
+## Step 3: Push Image to Docker Hub
+
+```bash
+docker login
+docker push bentechmusili/country-service:1.0
+```
+
+## Step 4: Deploy to Kubernetes
+
+```bash
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl apply -f hpa.yaml
+```
+
+## Step 5: Verify Deployment
+
+```bash
+kubectl get deployments
+kubectl get pods
+kubectl get svc
+kubectl get hpa
+```
+
+## Step 6: Access Application
+
+```bash
+kubectl get svc country-service
+```
+
+Use the EXTERNAL-IP displayed by Kubernetes.
+
+Example:
+
+```bash
+http://<external-ip>/countries/KE
+```
