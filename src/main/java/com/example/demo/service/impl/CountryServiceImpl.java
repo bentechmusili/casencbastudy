@@ -7,8 +7,9 @@ import com.example.demo.repos.CountryRepository;
 import com.example.demo.service.CountryService;
 import com.example.demo.soap.client.CountryInfoSoapClient;
 import com.example.demo.soap.client.IsoSoapClient;
+import com.example.demo.util.CountryInfoMapper;
 import com.example.demo.util.DTOtoEntityMapper;
-import com.example.demo.util.FullCountryParser;
+
 import com.example.demo.util.TextUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +61,7 @@ public class CountryServiceImpl implements CountryService {
         }
 
         FullCountryInfoResponse response =
-                FullCountryParser.map(fullInfoXml);
+                CountryInfoMapper.map(fullInfoXml);
 
         CountryInfo entity = DTOtoEntityMapper.toEntity(response);
 
